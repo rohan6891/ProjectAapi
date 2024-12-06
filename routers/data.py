@@ -1,12 +1,13 @@
+from bson import ObjectId
 from fastapi import APIRouter, HTTPException
-from api.models.data import InputModel
-from api.database import db_instance
+from models.data import DataEntry
+from database import db_instance
 import traceback, logging
 
 router = APIRouter()
 
 @router.post("/storeData/")
-async def store_data(input_data: InputModel):
+async def store_data(input_data: DataEntry):
     try:
         document = input_data.dict()
         if "_id" not in document:
