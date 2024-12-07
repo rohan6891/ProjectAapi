@@ -23,7 +23,8 @@ async def login_user(username: Annotated[str, Form()], password: Annotated[str, 
         raise HTTPException(status_code=404, detail="User not found")
     elif not verify_password(password, user["password"]):
         raise HTTPException(status_code=401, detail="Invalid username or password.")
-    token = create_access_token(data={"sub":username})
+    user_id=str(user["_id"])
+    token = create_access_token(data={"sub":user_id})
     return {"success": True, "message": "Login successful","token":token}
 
 @router.get("/")
