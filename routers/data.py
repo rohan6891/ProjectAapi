@@ -12,7 +12,7 @@ import json
 from app_scrapers.instagram.main import compile_instagram_account
 # from app_scrapers.facebook.main import compile_facebook_report
 # from app_scrapers.x.main import compile_x_report
-from utils.data_utils import create_data_object, scrape_and_store, get_cases_collection, get_users_collection
+from utils.data_utils import build_case_response, create_data_object, scrape_and_store, get_cases_collection, get_users_collection
 from utils.jwt_handler import decode_access_token
 
 router = APIRouter()
@@ -62,7 +62,27 @@ async def login_user(
         return {"message": f"Scraping started for {platform} in the background."}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error starting scraping task: {str(e)}")
+
+
+
+@router.get("/datafiles")
+async def get_data_files(request: Request):
+    token = request.headers.get("Authorization")
+    if not token:
+        raise HTTPException(status_code=401, detail="Authorization header missing")
+    try:
+        token = token.split(" ")[1]  # Extract token from 'Bearer <token>'
+        payload = decode_access_token(token)
+        if not payload:
+            raise HTTPException(status_code=401, detail="Invalid token")
+        user_id = ObjectId(payload.get("sub"))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error handling token: {str(e)}")
     
+    # Build response using the utility function
+    response = await build_case_response(user_id)
+    return response
+
     
 #library of the agent
 # @router.get("/datafiles")

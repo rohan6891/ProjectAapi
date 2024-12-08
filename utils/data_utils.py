@@ -85,3 +85,71 @@ async def store_in_mongodb(data_folder_path, platform, data_id):
         print(f"Stored data for platform {platform}: {data}")
     except Exception as e:
         raise Exception(f"Error storing data in MongoDB: {str(e)}")
+    
+
+
+async def get_user_cases(user_id):
+    """
+    Fetch all cases associated with a user based on their `caseIds`.
+    """
+    users_collection = await get_users_collection()
+    user_doc = await users_collection.find_one({"_id": ObjectId(user_id)})
+    if not user_doc:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    case_ids = user_doc["caseIds"]
+    return case_ids
+
+
+async def fetch_case_data(case_id):
+    """
+    Fetch a single case document by its ID.
+    """
+    cases_collection = await get_cases_collection()
+    case = await cases_collection.find_one({"_id": ObjectId(case_id)})
+    return case
+
+
+async def fetch_platform_data_status(platform_data_id):
+    """
+    Fetch the status of a platform_data_id from the data collection.
+    """
+    data_collection = await get_data_collection()
+    data_doc = await data_collection.find_one({"_id": ObjectId(platform_data_id)})
+    if data_doc["folder_path"] is None:
+        return "In Progress"
+    return "Completed"
+
+
+async def build_case_response(user_id):
+    """
+    Build the final response array for /datafiles route.
+    """
+    case_ids = await get_user_cases(user_id)
+    print(case_ids)
+    response = []
+
+    for case_id in case_ids:
+        case = await fetch_case_data(case_id)
+
+        case_number = case["case_number"]  # Use case_number instead of document ID
+        suspect_names = case["suspect_name"]
+        suspect_name = suspect_names[0] if suspect_names else "Unknown"
+
+        linked_data = case["linked_data"]
+        for data_entry in linked_data:
+            platform_data_id = data_entry["platform_data_id"]
+            platform = data_entry["platform_data"]
+
+            # Fetch status for platform_data_id
+            status = await fetch_platform_data_status(platform_data_id)
+
+            # Add each source as a separate object in the response
+            response.append({
+                "name": suspect_name,
+                "source": platform,
+                "status": status,
+                "case_id": case_number,  # Return case_number instead of MongoDB ObjectId
+            })
+
+    return response
