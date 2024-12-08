@@ -27,7 +27,7 @@ from app_scrapers.x.FuncScrape.account_info_json import fetch_account_details_as
 
 def create_data_folder(username):
     folder_name = f"Data_{username}"
-    folder_path = os.path.join(r"C:\Users\katik\Desktop\SIH\SIH_FINAL\Backend\ProjectAapi\Data", "x", folder_name)
+    folder_path = os.path.join(r"C:\Users\katik\Desktop\SIH\SIH_FINAL\Backend\ProjectAapi\ScraData", "x", folder_name)
     if not os.path.exists(folder_path):
         os.makedirs(folder_path)
         print(f"Created directory: {folder_path}")
