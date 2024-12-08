@@ -79,53 +79,53 @@ def login_instagram(driver, username, password):
 
 def compile_instagram_account(username, password):
     path=create_data_folder(username)
-    report_filename = os.path.join(path, "instagram_Report.pdf")
-    pdf_report = canvas.Canvas(report_filename, pagesize=A4)
-    create_title_page(username, pdf_report)
+    # report_filename = os.path.join(path, "instagram_Report.pdf")
+    # pdf_report = canvas.Canvas(report_filename, pagesize=A4)
+    # create_title_page(username, pdf_report)
 
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--window-size=1920,1080")
+    # chrome_options = Options()
+    # chrome_options.add_argument("--headless")
+    # chrome_options.add_argument("--window-size=1920,1080")
     
-    driver = webdriver.Chrome(options=chrome_options)
-    login_instagram(driver, username, password)
+    # driver = webdriver.Chrome(options=chrome_options)
+    # login_instagram(driver, username, password)
 
-    fetch_account_info(driver,pdf_report,username,path)
-    fetch_posts(driver, pdf_report,username,path)
-    fetch_followers(driver,pdf_report,username,path)
-    fetch_following(driver,pdf_report,username,path)
-    fetch_chats(driver,pdf_report,path)
-    fetch_comments(driver, pdf_report,path)
-    fetch_likes(driver, pdf_report,path)
-    fetch_saved_posts(driver, pdf_report,username,path)
-    fetch_tagged_posts(driver, pdf_report,username,path)
-    pdf_report.save()
-    print(f"Instagram pdf report saved as: {report_filename}")
+    # fetch_account_info(driver,pdf_report,username,path)
+    # fetch_posts(driver, pdf_report,username,path)
+    # fetch_followers(driver,pdf_report,username,path)
+    # fetch_following(driver,pdf_report,username,path)
+    # fetch_chats(driver,pdf_report,path)
+    # fetch_comments(driver, pdf_report,path)
+    # fetch_likes(driver, pdf_report,path)
+    # fetch_saved_posts(driver, pdf_report,username,path)
+    # fetch_tagged_posts(driver, pdf_report,username,path)
+    # pdf_report.save()
+    # print(f"Instagram pdf report saved as: {report_filename}")
 
-    driver.maximize_window()
-    account_info=fetch_account_info_as_json(driver,username,path)
-    posts=fetch_posts_as_json(driver,username,path)
-    tagged_posts=fetch_tagged_posts_as_json(driver,username,path)
-    saved_posts=fetch_saved_posts_as_json(driver,username,path)
-    followers=fetch_followers_as_json(driver,username,path)
-    following=fetch_following_as_json(driver,username,path)
-    chats=fetch_chats_as_json(driver,username,path)
-    comments=fetch_comments_as_json(driver,path)
+    # driver.maximize_window()
+    # account_info=fetch_account_info_as_json(driver,username,path)
+    # posts=fetch_posts_as_json(driver,username,path)
+    # tagged_posts=fetch_tagged_posts_as_json(driver,username,path)
+    # saved_posts=fetch_saved_posts_as_json(driver,username,path)
+    # followers=fetch_followers_as_json(driver,username,path)
+    # following=fetch_following_as_json(driver,username,path)
+    # chats=fetch_chats_as_json(driver,username,path)
+    # comments=fetch_comments_as_json(driver,path)
     
 
-    instagram_data={
-        'account_info':account_info,
-        'posts':posts,
-        'chats':chats,
-        'saved_posts':saved_posts,
-        'tagged_posts':tagged_posts,
-        'comments':comments,
-        'followers':followers,
-        'following':following
-    }
-    json_file_path = os.path.join(path, "Instagram_Report.json")
-    with open(json_file_path, "w", encoding="utf-8") as json_file:
-        json.dump(instagram_data, json_file, ensure_ascii=False, indent=4)
-    print(f"Instagram json report saved at: {json_file_path}")    
-    driver.quit()
-    return os.path.join("instagram",f"Data_{username}")
+    # instagram_data={
+    #     'account_info':account_info,
+    #     'posts':posts,
+    #     'chats':chats,
+    #     'saved_posts':saved_posts,
+    #     'tagged_posts':tagged_posts,
+    #     'comments':comments,
+    #     'followers':followers,
+    #     'following':following
+    # }
+    # json_file_path = os.path.join(path, "Instagram_Report.json")
+    # with open(json_file_path, "w", encoding="utf-8") as json_file:
+    #     json.dump(instagram_data, json_file, ensure_ascii=False, indent=4)
+    # print(f"Instagram json report saved at: {json_file_path}")    
+    # driver.quit()
+    return f"instagram/Data_{username}"

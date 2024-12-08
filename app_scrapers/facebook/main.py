@@ -14,18 +14,18 @@ from selenium.common.exceptions import TimeoutException
 from PIL import Image
 import re
 
-from FuncScrape.chats_json import fetch_chats_as_json
-from FuncScrape.posts import fetch_posts
-from FuncScrape.chats import fetch_chats
-from FuncScrape.posts_json import fetch_posts_as_json
-from FuncScrape.friends_json import fetch_friends_as_json
-from FuncScrape.friends import fetch_friends
-from FuncScrape.personal_info import fetch_personal_info
-from FuncScrape.personal_info_json import fetch_personal_info_as_json
+from app_scrapers.facebook.FuncScrape.chats_json import fetch_chats_as_json
+from app_scrapers.facebook.FuncScrape.posts import fetch_posts
+from app_scrapers.facebook.FuncScrape.chats import fetch_chats
+from app_scrapers.facebook.FuncScrape.posts_json import fetch_posts_as_json
+from app_scrapers.facebook.FuncScrape.friends_json import fetch_friends_as_json
+from app_scrapers.facebook.FuncScrape.friends import fetch_friends
+from app_scrapers.facebook.FuncScrape.personal_info import fetch_personal_info
+from app_scrapers.facebook.FuncScrape.personal_info_json import fetch_personal_info_as_json
 
 def create_data_folder(username):
     folder_name = f"Data_{username}"
-    folder_path = os.path.join(r"C:\Users\katik\Desktop\SIH\SIH_FINAL\Backend\ProjectAapi\Data","facebook", folder_name)
+    folder_path = os.path.join(r"C:\Users\katik\Desktop\SIH\SIH_FINAL\Backend\ProjectAapi\ScraData","facebook", folder_name)
     if not os.path.exists(folder_path):
         os.makedirs(folder_path)
         print(f"Created directory: {folder_path}")
@@ -113,4 +113,4 @@ def compile_facebook_report(username, password):
         json.dump(facebook_data, json_file, ensure_ascii=False, indent=4)
     print(f"Facebook json report saved at: {json_file_path}")    
     driver.quit()
-    return os.path.join("Data","facebook",f"Data_{username}")
+    return f"facebook/Data_{username}"

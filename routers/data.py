@@ -10,8 +10,8 @@ import traceback
 import json
 
 from app_scrapers.instagram.main import compile_instagram_account
-# from app_scrapers.facebook.main import compile_facebook_report
-# from app_scrapers.x.main import compile_x_report
+from app_scrapers.facebook.main import compile_facebook_report
+from app_scrapers.x.main import compile_x_report
 from utils.data_utils import build_case_response, create_data_object, scrape_and_store, get_cases_collection, get_users_collection
 from utils.jwt_handler import decode_access_token
 
@@ -19,9 +19,9 @@ router = APIRouter()
 
 # Define scraper functions for supported platforms
 PLATFORM_SCRAPERS = {
-    "instagram": compile_instagram_account
-    # "x": compile_x_report,
-    # "facebook": compile_facebook_report
+    "instagram": compile_instagram_account,
+    "x": compile_x_report,
+    "facebook": compile_facebook_report
 }
 @router.post("/scrape")
 async def login_user(

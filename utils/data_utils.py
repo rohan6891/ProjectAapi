@@ -1,67 +1,90 @@
 import asyncio
 import datetime
-import bcrypt
 from bson import ObjectId
 from fastapi import HTTPException
 from fastapi.concurrency import run_in_threadpool
 from database import db_instance
 
-async def get_users_collection():
-    user_agent_collection = db_instance.get_collection("user_agents")  # No need to await here
-    return user_agent_collection
-
 async def get_cases_collection():
-    user_agent_collection = db_instance.get_collection("case_collections")  # No need to await here
-    return user_agent_collection
+    return db_instance.get_collection("case_collections")
 
-async def get_data_collection():
-    user_agent_collection = db_instance.get_collection("data")  # No need to await here
-    return user_agent_collection
+async def get_users_collection():
+    return db_instance.get_collection("user_agents")
 
 
-async def create_data_object(user_id, case,username, platform, suspect_name):
+async def create_data_object(user_id, case, username, platform, suspect_name):
     users_collection = await get_users_collection()
-    data_collection = await get_data_collection()
-    cases_collection = await get_cases_collection()
+    data_collection = db_instance.get_collection("data")
+    cases_collection = db_instance.get_collection("case_collections")
 
     # Find the user and case documents
-    user = await users_collection.find_one({"_id": user_id})
+    user = await users_collection.find_one({"_id": ObjectId(user_id)})
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
-    
+
     case_doc = await cases_collection.find_one({"case_number": case})
     if not case_doc:
         raise HTTPException(status_code=404, detail="Case not found")
-    user["caseIds"].append(case_doc["_id"])
-    # Update suspect name in the case
 
+    # Add case ID to user if not already present
+    if case_doc["_id"] not in user["caseIds"]:
+        user["caseIds"].append(case_doc["_id"])
+
+    # Add suspect name to case document if not already present
     if suspect_name not in case_doc["suspect_name"]:
         case_doc["suspect_name"].append(suspect_name)
 
-    # Insert data entry into the data collection
-    data = await data_collection.insert_one({
-        "username":username,
-        "platform": platform,
-        "last_updated": None,
-        "folder_path": None
-    })
+    # Check if data entry for the username and platform already exists
+    existing_data = await data_collection.find_one({"username": username, "platform": platform})
+    if existing_data:
+        # Update last_updated to None for tracking purposes
+        await data_collection.update_one(
+            {"_id": existing_data["_id"]},
+            {"$set": {"last_updated": None}}
+        )
+        data_id = existing_data["_id"]
+    else:
+        # Create a new data entry
+        new_data = await data_collection.insert_one({
+            "username": username,
+            "platform": platform,
+            "last_updated": None,
+            "folder_path": None
+        })
+        data_id = new_data.inserted_id
 
-    
-    case_doc["linked_data"].append({
-        "platform_data_id": data.inserted_id,
-        "platform_data": platform,
-        "linked_at": datetime.datetime.utcnow().isoformat()
-    })
+    # Check if platform_data_id already exists in linked_data
+    linked_data_entry = next(
+        (entry for entry in case_doc["linked_data"] if entry["platform_data_id"] == data_id),
+        None
+    )
+    if linked_data_entry:
+        # Update linked_at timestamp
+        linked_data_entry["linked_at"] = datetime.datetime.utcnow().isoformat()
+    else:
+        # Add a new linked_data entry
+        case_doc["linked_data"].append({
+            "platform_data_id": data_id,
+            "platform_data": platform,
+            "linked_at": datetime.datetime.utcnow().isoformat()
+        })
 
-    # Perform updates in MongoDB
-    await users_collection.update_one({"_id": user_id}, {"$set": {"caseIds": user["caseIds"]}})
+    # Perform atomic updates in MongoDB
+    await users_collection.update_one(
+        {"_id": ObjectId(user_id)},
+        {"$set": {"caseIds": user["caseIds"]}}
+    )
     await cases_collection.update_one(
         {"case_number": case},
-        {"$set": {"suspect_name": case_doc["suspect_name"], "linked_data": case_doc["linked_data"]}}
+        {
+            "$set": {
+                "suspect_name": case_doc["suspect_name"],
+                "linked_data": case_doc["linked_data"]
+            }
+        }
     )
 
-    return str(data.inserted_id)  # Return the inserted data ID as a string
-
+    return str(data_id)  # Return the data ID as a string
 
 
 async def scrape_and_store(scraper_function, username, password, platform, data_id):
@@ -74,7 +97,7 @@ async def scrape_and_store(scraper_function, username, password, platform, data_
 
 
 async def store_in_mongodb(data_folder_path, platform, data_id):
-    data_collection = await get_data_collection()
+    data_collection = db_instance.get_collection("data")
     try:
         data = {
             "folder_path": data_folder_path,
@@ -85,7 +108,6 @@ async def store_in_mongodb(data_folder_path, platform, data_id):
         print(f"Stored data for platform {platform}: {data}")
     except Exception as e:
         raise Exception(f"Error storing data in MongoDB: {str(e)}")
-    
 
 
 async def get_user_cases(user_id):
@@ -97,28 +119,24 @@ async def get_user_cases(user_id):
     if not user_doc:
         raise HTTPException(status_code=404, detail="User not found")
 
-    case_ids = user_doc["caseIds"]
-    return case_ids
+    return user_doc["caseIds"]
 
 
 async def fetch_case_data(case_id):
     """
     Fetch a single case document by its ID.
     """
-    cases_collection = await get_cases_collection()
-    case = await cases_collection.find_one({"_id": ObjectId(case_id)})
-    return case
+    cases_collection = db_instance.get_collection("case_collections")
+    return await cases_collection.find_one({"_id": ObjectId(case_id)})
 
 
 async def fetch_platform_data_status(platform_data_id):
     """
     Fetch the status of a platform_data_id from the data collection.
     """
-    data_collection = await get_data_collection()
+    data_collection = db_instance.get_collection("data")
     data_doc = await data_collection.find_one({"_id": ObjectId(platform_data_id)})
-    if data_doc["folder_path"] is None:
-        return "In Progress"
-    return "Completed"
+    return "In Progress" if data_doc["folder_path"] is None else "Completed"
 
 
 async def build_case_response(user_id):
@@ -126,18 +144,14 @@ async def build_case_response(user_id):
     Build the final response array for /datafiles route.
     """
     case_ids = await get_user_cases(user_id)
-    print(case_ids)
     response = []
 
     for case_id in case_ids:
         case = await fetch_case_data(case_id)
+        case_number = case["case_number"]
+        suspect_name = case["suspect_name"][0] if case["suspect_name"] else "Unknown"
 
-        case_number = case["case_number"]  # Use case_number instead of document ID
-        suspect_names = case["suspect_name"]
-        suspect_name = suspect_names[0] if suspect_names else "Unknown"
-
-        linked_data = case["linked_data"]
-        for data_entry in linked_data:
+        for data_entry in case["linked_data"]:
             platform_data_id = data_entry["platform_data_id"]
             platform = data_entry["platform_data"]
 
@@ -149,7 +163,7 @@ async def build_case_response(user_id):
                 "name": suspect_name,
                 "source": platform,
                 "status": status,
-                "case_id": case_number,  # Return case_number instead of MongoDB ObjectId
+                "case_id": case_number
             })
 
     return response

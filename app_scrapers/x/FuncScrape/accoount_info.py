@@ -2,7 +2,7 @@ from selenium.webdriver.common.by import By
 from PIL import Image
 import time
 from reportlab.lib.pagesizes import A4
-from FuncScrape.pdf_utils import create_title_page, scale_image
+from app_scrapers.x.FuncScrape.pdf_utils import create_title_page, scale_image
 import os
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
