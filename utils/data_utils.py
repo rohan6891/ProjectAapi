@@ -1,5 +1,6 @@
 import asyncio
 import datetime
+import json
 from bson import ObjectId
 from fastapi import HTTPException
 from fastapi.concurrency import run_in_threadpool
@@ -64,6 +65,7 @@ async def create_data_object(user_id, case, username, platform, suspect_name):
     else:
         # Add a new linked_data entry
         case_doc["linked_data"].append({
+            "suspect_name":suspect_name,
             "platform_data_id": data_id,
             "platform_data": platform,
             "linked_at": datetime.datetime.utcnow().isoformat()
@@ -149,12 +151,11 @@ async def build_case_response(user_id):
     for case_id in case_ids:
         case = await fetch_case_data(case_id)
         case_number = case["case_number"]
-        suspect_name = case["suspect_name"][0] if case["suspect_name"] else "Unknown"
 
         for data_entry in case["linked_data"]:
             platform_data_id = data_entry["platform_data_id"]
             platform = data_entry["platform_data"]
-
+            suspect_name=data_entry["suspect_name"]
             # Fetch status for platform_data_id
             status = await fetch_platform_data_status(platform_data_id)
 
@@ -166,4 +167,4 @@ async def build_case_response(user_id):
                 "case_id": case_number
             })
 
-    return response
+    return json.dumps(response)

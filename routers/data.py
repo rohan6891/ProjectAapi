@@ -1,3 +1,14 @@
+
+
+
+
+
+
+
+
+
+
+
 import asyncio
 import datetime
 from typing import Annotated
@@ -40,6 +51,7 @@ async def login_user(
     try:
         token = token.split(" ")[1]  # Extract the actual token from 'Bearer <token>'
         payload = decode_access_token(token)
+        print(payload)
         if not payload:
             raise HTTPException(status_code=401, detail="Invalid token")
         user_id = ObjectId(payload.get("sub"))
@@ -73,17 +85,18 @@ async def get_data_files(request: Request):
     try:
         token = token.split(" ")[1]  # Extract token from 'Bearer <token>'
         payload = decode_access_token(token)
+        print(payload)
+        print(token, " in get_data_files")
         if not payload:
             raise HTTPException(status_code=401, detail="Invalid token")
-        user_id = ObjectId(payload.get("sub"))
+        user_id = payload.get("sub")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error handling token: {str(e)}")
     
-    # Build response using the utility function
+    # Build response using the utility function   
     response = await build_case_response(user_id)
     return response
 
-    
 #library of the agent
 # @router.get("/datafiles")
 # async def get_data_files(request: Request):
