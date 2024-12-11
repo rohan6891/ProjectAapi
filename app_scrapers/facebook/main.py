@@ -79,9 +79,11 @@ def login_facebook(driver, username, password):
 
 def compile_facebook_report(username, password):
     chrome_options = Options()
-    chrome_options.add_argument("--headless")
+    # chrome_options.add_argument("--headless")
     chrome_options.add_argument("--disable-notifications")
     chrome_options.add_argument("--window-size=1920,1080")
+    time.sleep(20)
+    print(username,password)
     driver = webdriver.Chrome(options=chrome_options)
     login_facebook(driver, username, password)
     username=fetch_username(driver)

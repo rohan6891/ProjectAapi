@@ -84,7 +84,7 @@ def compile_instagram_account(username, password):
     create_title_page(username, pdf_report)
 
     chrome_options = Options()
-    chrome_options.add_argument("--headless")
+    # chrome_options.add_argument("--headless")
     chrome_options.add_argument("--window-size=1920,1080")
     
     driver = webdriver.Chrome(options=chrome_options)
