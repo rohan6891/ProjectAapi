@@ -114,11 +114,30 @@ async def get_data_files(request: Request):
     except Exception as e:
         logging.error(f"Token error: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Error handling token: {str(e)}")
+=======
     """# Build response using the utility function   
     response = await build_case_response(user_id)
     return response"""
     return user_id
 
+#library of the agent
+# @router.get("/datafiles")
+# async def get_data_files(request: Request):
+#     token = request.headers.get("Authorization")
+#     if not token:
+#         raise HTTPException(status_code=401, detail="Authorization header missing")
+#     try:
+#         token = token.split(" ")[1]  # Extract the actual token from 'Bearer <token>'
+#         payload = decode_access_token(token)
+#         if not payload:
+#             raise HTTPException(status_code=401, detail="Invalid token")
+#         user_id = payload.get("sub")
+#         user_id=ObjectId(user_id)
+#     except Exception as e:
+#         logging.error(f"Token error: {str(e)}")
+#         raise HTTPException(status_code=500, detail=f"Error handling token: {str(e)}")
+>>>>>>> 6f865d53c5b530cd2f9fedfcf9dfe04131eda784
+    
     users_collection = get_users_collection()
     case_collection = get_cases_collection()
 
@@ -144,12 +163,12 @@ async def get_data_files(request: Request):
     return json.dumps(data, indent=4, default=str)    
 
 
-# @router.post("/report-generate")
-# def report_generator(case_id, platforms:str[]):
-#     # Generate a report for the given case ID
-#     platforms_id = []
-#     case = get_cases_collection.find_one({"case_id": case_id})
-#     linked_data = case["linked_data"]
+@router.post("/report-generate")
+def report_generator(case_id, platforms:str[]):
+    # Generate a report for the given case ID
+    platforms_id = []
+    case = get_cases_collection.find_one({"case_id": case_id})
+    linked_data = case["linked_data"]
     
-#     for data in linked_data:
-#         data[]
+    for data in linked_data:
+        data[]
