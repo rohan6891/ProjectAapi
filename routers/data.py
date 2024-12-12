@@ -12,7 +12,7 @@ from typing import Optional
 from app_scrapers.instagram.main import compile_instagram_account
 from app_scrapers.facebook.main import compile_facebook_report
 from app_scrapers.x.main import compile_x_report
-from utils.data_utils import check_case, create_case, create_data_object, scrape_and_store, get_cases_collection, get_users_collection
+from utils.data_utils import build_case_response, check_case, create_case, create_data_object, scrape_and_store, get_cases_collection, get_users_collection
 from utils.jwt_handler import decode_access_token
 
 router = APIRouter()
@@ -91,10 +91,10 @@ async def get_data_files(request: Request):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error handling token: {str(e)}")
     
-    """# Build response using the utility function   
+    # Build response using the utility function   
     response = await build_case_response(user_id)
-    return response"""
-    return user_id
+    print(response)
+    return json.dumps(response)
 
 #library of the agent
 # @router.get("/datafiles")

@@ -16,7 +16,6 @@ from PIL import Image
 
 
 
-from app_scrapers.instagram.FuncScrape.account_info import fetch_account_info
 from app_scrapers.instagram.FuncScrape.saved_posts import fetch_saved_posts
 from app_scrapers.instagram.FuncScrape.tagged_posts import fetch_tagged_posts
 from app_scrapers.instagram.FuncScrape.posts import fetch_posts
@@ -26,7 +25,7 @@ from app_scrapers.instagram.FuncScrape.chats import fetch_chats
 from app_scrapers.instagram.FuncScrape.followers import fetch_followers
 from app_scrapers.instagram.FuncScrape.following import fetch_following
 
-from app_scrapers.instagram.FuncScrape.account_info_json import fetch_account_info_as_json
+
 from app_scrapers.instagram.FuncScrape.followers_json import fetch_followers_as_json
 from app_scrapers.instagram.FuncScrape.following_json import fetch_following_as_json
 from app_scrapers.instagram.FuncScrape.comments_json import fetch_comments_as_json
@@ -90,7 +89,6 @@ def compile_instagram_account(username, password):
     driver = webdriver.Chrome(options=chrome_options)
     login_instagram(driver, username, password)
 
-    fetch_account_info(driver,pdf_report,username,path)
     fetch_posts(driver, pdf_report,username,path)
     fetch_followers(driver,pdf_report,username,path)
     fetch_following(driver,pdf_report,username,path)
@@ -103,7 +101,6 @@ def compile_instagram_account(username, password):
     print(f"Instagram pdf report saved as: {report_filename}")
 
     driver.maximize_window()
-    account_info=fetch_account_info_as_json(driver,username,path)
     posts=fetch_posts_as_json(driver,username,path)
     tagged_posts=fetch_tagged_posts_as_json(driver,username,path)
     saved_posts=fetch_saved_posts_as_json(driver,username,path)
@@ -114,7 +111,7 @@ def compile_instagram_account(username, password):
     
 
     instagram_data={
-        'account_info':account_info,
+
         'posts':posts,
         'chats':chats,
         'saved_posts':saved_posts,

@@ -320,3 +320,42 @@ async def scraper_runner(scraper_function, username, password, platform, data_id
         await scrape_and_store(scraper_function, username, password, platform, data_id)
     except Exception as e:
         print(f"Error in scraping runner: {e}")
+
+
+
+async def fetch_platform_data_status(platform_data_id):
+    
+    #Fetch the status of a platform_data_id from the data collection.
+    
+    data_collection = db_instance.get_collection("data")
+    data_doc = await data_collection.find_one({"_id": ObjectId(platform_data_id)})
+    return "In Progress" if data_doc["folder_path"] is None else "Completed"
+
+
+async def build_case_response(user_id):
+    
+    #Build the final response array for /datafiles route.
+    
+    case_ids = await get_user_cases(user_id)
+    response = []
+
+    for case_id in case_ids:
+        case = await fetch_case_data(case_id)
+        case_number = case["case_number"]
+
+        for data_entry in case["linked_data"]:
+            platform_data_id = data_entry["platform_data_id"]
+            platform = data_entry["platform_data"]
+            suspect_name=data_entry["suspect_name"]
+            # Fetch status for platform_data_id
+            status = await fetch_platform_data_status(platform_data_id)
+
+            # Add each source as a separate object in the response
+            response.append({
+                "name": suspect_name,
+                "source": platform,
+                "status": status,
+                "case_id": case_number
+            })
+
+    return response
