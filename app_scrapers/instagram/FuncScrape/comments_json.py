@@ -1,7 +1,9 @@
 import os
 import time
 import json
+from datetime import datetime, timedelta
 from selenium.webdriver.common.by import By
+
 def fetch_comments_as_json(driver, f_upath):
     """Fetches Instagram comments and saves them in JSON format."""
     driver.get("https://www.instagram.com/your_activity/interactions/comments")
@@ -68,12 +70,20 @@ def fetch_comments_as_json(driver, f_upath):
                         './/div[@data-bloks-name="bk.components.Flexbox" and @style="pointer-events: auto; width: 100%;"]'
                     )
 
+                    # Convert time_posted to date
+                    time_posted = odd_timestamps[i // 2] if i // 2 < len(odd_timestamps) else None
+                    if time_posted and 'w' in time_posted:
+                        weeks_ago = int(time_posted.replace('w', ''))
+                        post_date = (datetime.now() - timedelta(weeks=weeks_ago)).strftime('%Y-%m-%d')
+                    else:
+                        post_date = None
+
                     # Append data
                     comments_data.append({
-                            "comment": odd_comments[i // 2].strip() if i // 2 < len(odd_comments) else None,
-                            "time_posted": odd_timestamps[i // 2] if i // 2 < len(odd_timestamps) else None,
-                            "post_link": post_link
-                        })
+                        "comment": odd_comments[i // 2].strip() if i // 2 < len(odd_comments) else None,
+                        "date": post_date,
+                        "post_link": post_link
+                    })
                 except Exception as e:
                     print(f"Error processing div at index {i}: {e}")
             break

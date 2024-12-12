@@ -1,17 +1,6 @@
-
-
-
-
-
-
-
-
-
-
-
 import asyncio
-import datetime
-from typing import Annotated
+from datetime import datetime
+from typing import Annotated, Optional
 from bson import ObjectId
 from fastapi import APIRouter, BackgroundTasks, Form, HTTPException, Request
 from models.data import DataEntry
@@ -19,11 +8,11 @@ from database import db_instance
 import logging
 import traceback
 import json
-
+from typing import Optional
 from app_scrapers.instagram.main import compile_instagram_account
 from app_scrapers.facebook.main import compile_facebook_report
 from app_scrapers.x.main import compile_x_report
-from utils.data_utils import build_case_response, create_data_object, scrape_and_store, get_cases_collection, get_users_collection
+from utils.data_utils import check_case, create_case, create_data_object, scrape_and_store, get_cases_collection, get_users_collection
 from utils.jwt_handler import decode_access_token
 
 router = APIRouter()
@@ -34,24 +23,30 @@ PLATFORM_SCRAPERS = {
     "x": compile_x_report,
     "facebook": compile_facebook_report
 }
+
 @router.post("/scrape")
 async def login_user(
     request: Request,
     case: Annotated[str, Form()],
-    suspect_name: Annotated[str, Form()],
+    description:Annotated[str, Form()],  # Set default to None
+    nia_officer: Annotated[str, Form()],
+    title: Annotated[str, Form()],
+    cio_officer: Annotated[str, Form()],
+    eo_officer: Annotated[str, Form()],
+    eo_designation: Annotated[str, Form()],
     platform: Annotated[str, Form()],
     username: Annotated[str, Form()],
     password: Annotated[str, Form()],
-    background_tasks: BackgroundTasks
-):
-    # Retrieve and validate the token
+    background_tasks: BackgroundTasks,
+    suspect_name: Annotated[str, Form()] =None
+):    # Retrieve and validate the token
     token = request.headers.get("Authorization")
     if not token:
         raise HTTPException(status_code=401, detail="Authorization header missing")
     try:
         token = token.split(" ")[1]  # Extract the actual token from 'Bearer <token>'
         payload = decode_access_token(token)
-        print(payload)
+        # print(payload)
         if not payload:
             raise HTTPException(status_code=401, detail="Invalid token")
         user_id = ObjectId(payload.get("sub"))
@@ -63,10 +58,13 @@ async def login_user(
         raise HTTPException(status_code=400, detail="Invalid platform")
 
     scraper_function = PLATFORM_SCRAPERS[platform]
+    if not await check_case(case):
+        await create_case(case,description,nia_officer,title,cio_officer,eo_officer,eo_designation,suspect_name)
 
     try:
         # Create a data object and get its ID
-        data_id = await create_data_object(user_id, case, username, platform, suspect_name)
+        data_id = await create_data_object(user_id, case, username, platform,suspect_name)
+        print(data_id)
 
         # Add the scraping task to the background
         background_tasks.add_task(scrape_and_store, scraper_function, username, password, platform, data_id)
@@ -93,9 +91,10 @@ async def get_data_files(request: Request):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error handling token: {str(e)}")
     
-    # Build response using the utility function   
+    """# Build response using the utility function   
     response = await build_case_response(user_id)
-    return response
+    return response"""
+    return user_id
 
 #library of the agent
 # @router.get("/datafiles")

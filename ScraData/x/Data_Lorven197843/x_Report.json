@@ -1,0 +1,245 @@
+{
+    "username": "Lorven197843",
+    "account information": {
+        "Screen Name": {
+            "key": "Username",
+            "value": "@Lorven197843"
+        },
+        "Phone Number": {
+            "key": "Phone",
+            "value": null
+        },
+        "Email Address": {
+            "key": "Email",
+            "value": "lorven060905@gmail.com"
+        },
+        "Country": {
+            "key": "Country",
+            "value": "India"
+        },
+        "Languages": {
+            "key": "Languages",
+            "value": "English"
+        },
+        "Gender": {
+            "key": "Gender",
+            "value": "Male"
+        },
+        "Age": {
+            "key": "Age",
+            "value": "24"
+        },
+        "Account Creation": {
+            "date": "2024-09-28",
+            "time":"3:43:29 PM",
+            "IP Address": "122.173.187.47"
+        }
+    },
+    "tweets": [
+        {
+            "date": "2024-11-23",
+            "time": "03:03:37.000Z",
+            "image_link": "https://pbs.twimg.com/media/GdCbImDXwAEvuwB?format=png&name=small",
+            "image_summary": ""
+        },
+        {
+            "date": "2024-11-27",
+            "time": "16:55:06.000Z",
+            "tweet": "This world is a very bad place to be in........"
+        },
+        {
+            "date": "2024-09-27",
+            "time": "10:14:38.000Z",
+            "tweet": "POIUYTRDECVBHJKL"
+        },
+        {
+            "date": "2024-09-28",
+            "time": "10:14:28.000Z",
+            "tweet": "LKIJUHYGTFRDSXCV"
+        }
+    ],
+    "chats": [
+        {
+            "receiver_name": "Rohit Reddy Katike",
+            "profile_link": "https://x.com/RohitKatike",
+            "chat": [
+                {
+                    "sender": "Receiver",
+                    "message": "hi"
+                },
+                {
+                    "sender": "Sender",
+                    "message": "hey hi"
+                },
+                {
+                    "sender": "Receiver",
+                    "message": "hi"
+                },
+                {
+                    "sender": "Sender",
+                    "message": "hi"
+                },
+                {
+                    "sender": "Receiver",
+                    "message": "So what are you up to ??"
+                }
+            ]
+        },
+        {
+            "receiver_name": "soap@123",
+            "profile_link": "https://x.com/soap123643730",
+            "chat": [
+                {
+                    "sender": "Sender",
+                    "message": "hey"
+                },
+                {
+                    "sender": "Sender",
+                    "message": "hi"
+                },
+                {
+                    "sender": "Sender",
+                    "message": "..."
+                },
+                {
+                    "sender": "Sender",
+                    "message": "1"
+                },
+                {
+                    "sender": "Sender",
+                    "message": "1"
+                },
+                {
+                    "sender": "Sender",
+                    "message": "2"
+                },
+                {
+                    "sender": "Sender",
+                    "message": "3"
+                },
+                {
+                    "sender": "Sender",
+                    "message": "4"
+                },
+                {
+                    "sender": "Sender",
+                    "message": "5"
+                },
+                {
+                    "sender": "Sender",
+                    "message": "6"
+                },
+                {
+                    "sender": "Sender",
+                    "message": "7"
+                },
+                {
+                    "sender": "Sender",
+                    "message": "8"
+                },
+                {
+                    "sender": "Sender",
+                    "message": "BOMB BLAST PANNING ON 11th of DECEMBER!!!!"
+                }
+            ]
+        },
+        {
+            "receiver_name": "Ashwini Shrivastava",
+            "profile_link": "https://x.com/AshwiniSahaya",
+            "chat": [
+                {
+                    "sender": "Sender",
+                    "message": "HI"
+                }
+            ]
+        }
+    ],
+    "followers": [
+        {
+            "name": "Rohit Reddy Katike",
+            "profile_link": "https://x.com/RohitKatike"
+        },
+        {
+            "name": "soap@123",
+            "profile_link": "https://x.com/soap123643730"
+        }
+    ],
+    "following": [
+        {
+            "name": "BCCI",
+            "profile_link": "https://x.com/BCCI"
+        },
+        {
+            "name": "Magda Piekorz",
+            "profile_link": "https://x.com/magdapiekorzart"
+        },
+        {
+            "name": "Pravesh",
+            "profile_link": "https://x.com/ImTheBigP"
+        },
+        {
+            "name": "Rohit Reddy Katike",
+            "profile_link": "https://x.com/RohitKatike"
+        },
+        {
+            "name": "The Big Draw®",
+            "profile_link": "https://x.com/The_Big_Draw"
+        },
+        {
+            "name": "RIKA　MISHIMA",
+            "profile_link": "https://x.com/RAINRAINRIKA"
+        },
+        {
+            "name": "ICC",
+            "profile_link": "https://x.com/ICC"
+        },
+        {
+            "name": "Lisa S Baker",
+            "profile_link": "https://x.com/LisaSBaker444"
+        },
+        {
+            "name": "Fidel of KIN",
+            "profile_link": "https://x.com/awaabuon_fidel"
+        },
+        {
+            "name": "PMO India",
+            "profile_link": "https://x.com/PMOIndia"
+        },
+        {
+            "name": "KTR",
+            "profile_link": "https://x.com/KTRBRS"
+        },
+        {
+            "name": "Virat Kohli",
+            "profile_link": "https://x.com/imVkohli"
+        },
+        {
+            "name": "Ashwini Shrivastava",
+            "profile_link": "https://x.com/AshwiniSahaya"
+        },
+        {
+            "name": "Sanjay Acharaya",
+            "profile_link": "https://x.com/iamsan_J"
+        },
+        {
+            "name": "Narendra Modi",
+            "profile_link": "https://x.com/narendramodi"
+        },
+        {
+            "name": "Chaitanya Kavy Dhruv",
+            "profile_link": "https://x.com/ChaitanyaDhruv1"
+        },
+        {
+            "name": "tech SStartup dudebro hater ☭",
+            "profile_link": "https://x.com/lawyerussy"
+        },
+        {
+            "name": "Shelia Hunt",
+            "profile_link": "https://x.com/shelia_hunt"
+        },
+        {
+            "name": "Anne Sands",
+            "profile_link": "https://x.com/AnneSands5"
+        }
+    ]
+}

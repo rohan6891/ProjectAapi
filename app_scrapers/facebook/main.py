@@ -39,7 +39,7 @@ def fetch_username(driver):
         time.sleep(15)
         username=driver.find_elements(By.TAG_NAME, "ul")[1].find_elements(By.TAG_NAME, "li")[0].find_element(By.TAG_NAME, "span").text
         print(username)
-        return username    
+        return username
     except Exception as e:
         print(f"Error: {e}")
         return None
@@ -110,7 +110,7 @@ def compile_facebook_report(username, password):
         'chats':chats,
         'friends':friends
     }
-    json_file_path = os.path.join(data_folder_path, "Facebook_Report.json")
+    json_file_path = os.path.join(data_folder_path, "facebook_Report.json")
     with open(json_file_path, "w", encoding="utf-8") as json_file:
         json.dump(facebook_data, json_file, ensure_ascii=False, indent=4)
     print(f"Facebook json report saved at: {json_file_path}")    

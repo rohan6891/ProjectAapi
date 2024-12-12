@@ -76,7 +76,7 @@ def compile_x_report(username, password):
 
     # Set up Chrome options for headless mode 
     chrome_options = Options()
-    # chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--headless")
     chrome_options.add_argument("--window-size=1920,1080")
     driver = webdriver.Chrome(options=chrome_options)
     login_to_twitter(driver, username, password)

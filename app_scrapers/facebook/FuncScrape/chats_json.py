@@ -6,8 +6,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from collections import OrderedDict
-
-# Helper function to scroll and load all contacts
 def scroll_to_load_contacts(driver, scrollable_div_selector):
     print("Loading all Facebook contacts...")
     try:

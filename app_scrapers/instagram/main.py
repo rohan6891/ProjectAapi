@@ -123,7 +123,7 @@ def compile_instagram_account(username, password):
         'followers':followers,
         'following':following
     }
-    json_file_path = os.path.join(path, "Instagram_Report.json")
+    json_file_path = os.path.join(path, "instagram_Report.json")
     with open(json_file_path, "w", encoding="utf-8") as json_file:
         json.dump(instagram_data, json_file, ensure_ascii=False, indent=4)
     print(f"Instagram json report saved at: {json_file_path}")    

@@ -44,9 +44,22 @@ def fetch_posts_as_json(driver, username, f_upath):
             # Initialize the post data with its link
             post_data = {
                 "post_number": counter,
+                "date": None,
+                "time":None,
                 "post_link": post_link,
-                "images": []
+                "images": [],
             }
+
+            # Extract the date after opening the post
+            try:
+                date_element = WebDriverWait(driver, 10).until(
+                    EC.presence_of_element_located((By.XPATH, '//time'))
+                )
+                post_data["date"] = date_element.get_attribute("datetime").split("T")[0]
+                post_data["time"] = date_element.get_attribute("datetime").split("T")[1]
+                print(f"Post {counter}: Date extracted.")
+            except Exception as e:
+                print(f"Post {counter}: Failed to extract date: {e}")
 
             # Extract the main image URL
             img_tag = WebDriverWait(driver, 10).until(
@@ -55,8 +68,7 @@ def fetch_posts_as_json(driver, username, f_upath):
             img_url = img_tag.get_attribute('src')
             post_data["images"].append({
                 "image_number": 1,
-                "image_url": img_url,
-                "image_summary":""
+                "image_url": img_url
             })
 
             print(f"Post {counter}: Image 1 URL extracted.")
@@ -76,8 +88,7 @@ def fetch_posts_as_json(driver, username, f_upath):
                     img_url = img_tag.get_attribute('src')
                     post_data["images"].append({
                         "image_number": i,
-                        "image_url": img_url,
-                        "image_summary":""
+                        "image_url": img_url
                     })
 
                     print(f"Post {counter}, Image {i}: Image URL extracted.")

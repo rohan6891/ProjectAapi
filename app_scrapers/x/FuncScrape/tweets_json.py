@@ -2,7 +2,8 @@ from selenium.webdriver.common.by import By
 import time
 import json
 import os
-
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 def fetch_tweets_json(driver, username, f_upath):
     profile_url = f"https://x.com/{username}"
     driver.get(profile_url)
@@ -46,15 +47,15 @@ def fetch_tweets_json(driver, username, f_upath):
                 tweet_text = tweet_text_elem.text.strip()
             except:
                 pass
-
             # Extract date and time
-            time_elem = tweet_element.find_element(By.TAG_NAME, 'time')
-            datetime_str = time_elem.get_attribute("innerText")  # E.g., "4:24 PM · Sep 28, 2024"
-            if '·' in datetime_str:
-                time_str, date_str = datetime_str.split('·')
-            else:
-                time_str, date_str = datetime_str, ""
-
+            try:
+                date_element = WebDriverWait(driver, 10).until(
+                    EC.presence_of_element_located((By.XPATH, '//time'))
+                )
+                date_str = date_element.get_attribute("datetime").split("T")[0]
+                time_str = date_element.get_attribute("datetime").split("T")[1]
+            except Exception as e:
+                print(f"Failed to extract date: {e}")
             # Extract image link
             img_link = None
             try:
