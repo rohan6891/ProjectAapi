@@ -1,0 +1,96 @@
+[
+    {
+        "receiver_name": "Rohit Reddy Katike",
+        "profile_link": "https://x.com/RohitKatike",
+        "chat": [
+            {
+                "sender": "Receiver",
+                "message": "hi"
+            },
+            {
+                "sender": "Sender",
+                "message": "hey hi"
+            },
+            {
+                "sender": "Receiver",
+                "message": "hi"
+            },
+            {
+                "sender": "Sender",
+                "message": "hi"
+            },
+            {
+                "sender": "Receiver",
+                "message": "So what are you up to ??"
+            }
+        ]
+    },
+    {
+        "receiver_name": "soap@123",
+        "profile_link": "https://x.com/soap123643730",
+        "chat": [
+            {
+                "sender": "Sender",
+                "message": "hey"
+            },
+            {
+                "sender": "Sender",
+                "message": "hi"
+            },
+            {
+                "sender": "Sender",
+                "message": "..."
+            },
+            {
+                "sender": "Sender",
+                "message": "1"
+            },
+            {
+                "sender": "Sender",
+                "message": "1"
+            },
+            {
+                "sender": "Sender",
+                "message": "2"
+            },
+            {
+                "sender": "Sender",
+                "message": "3"
+            },
+            {
+                "sender": "Sender",
+                "message": "4"
+            },
+            {
+                "sender": "Sender",
+                "message": "5"
+            },
+            {
+                "sender": "Sender",
+                "message": "6"
+            },
+            {
+                "sender": "Sender",
+                "message": "7"
+            },
+            {
+                "sender": "Sender",
+                "message": "8"
+            },
+            {
+                "sender": "Sender",
+                "message": "BOMB BLAST PANNING ON 11th of DECEMBER!!!!"
+            }
+        ]
+    },
+    {
+        "receiver_name": "Ashwini Shrivastava",
+        "profile_link": "https://x.com/AshwiniSahaya",
+        "chat": [
+            {
+                "sender": "Sender",
+                "message": "HI"
+            }
+        ]
+    }
+]

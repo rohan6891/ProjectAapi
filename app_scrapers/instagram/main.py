@@ -84,7 +84,7 @@ def compile_instagram_account(username, password):
     create_title_page(username, pdf_report)
 
     chrome_options = Options()
-    chrome_options.add_argument("--headless")
+    # chrome_options.add_argument("--headless")
     chrome_options.add_argument("--window-size=1920,1080")
     
     driver = webdriver.Chrome(options=chrome_options)
@@ -123,9 +123,9 @@ def compile_instagram_account(username, password):
         'followers':followers,
         'following':following
     }
-    json_file_path = os.path.join(path, "Instagram_Report.json")
+    json_file_path = os.path.join(path, "instagram_Report.json")
     with open(json_file_path, "w", encoding="utf-8") as json_file:
         json.dump(instagram_data, json_file, ensure_ascii=False, indent=4)
     print(f"Instagram json report saved at: {json_file_path}")    
     driver.quit()
-    return os.path.join("instagram",f"Data_{username}")
+    return f"instagram/Data_{username}"

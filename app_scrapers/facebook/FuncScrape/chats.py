@@ -5,7 +5,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from PIL import Image
-from FuncScrape.pdf_utils import create_title_page, scale_image  # Import custom utilities
+from app_scrapers.facebook.FuncScrape.pdf_utils import create_title_page, scale_image  # Import custom utilities
 from reportlab.lib.pagesizes import A4
 
 # Helper function to scroll and load all contacts

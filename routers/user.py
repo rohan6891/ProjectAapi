@@ -27,10 +27,6 @@ async def login_user(username: Annotated[str, Form()], password: Annotated[str, 
     token = create_access_token(data={"sub":user_id})
     return {"success": True, "message": "Login successful","token":token}
 
-@router.get("/")
-async def hello():
-    return "Hello"
-
 
 @router.get("/secure-data")
 async def secure_data(request: Request):

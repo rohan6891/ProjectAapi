@@ -4,7 +4,6 @@ from selenium.webdriver.support import expected_conditions as EC
 import time
 import os
 import json
-
 def fetch_tagged_posts_as_json(driver, username, f_upath):
     """Fetches tagged posts of a user and saves the data as JSON."""
     tagged_posts_url = f"https://www.instagram.com/{username}/tagged/"
@@ -57,8 +56,7 @@ def fetch_tagged_posts_as_json(driver, username, f_upath):
                 img_url = img_tag.get_attribute('src')
                 post_data["images"].append({
                     "image_number": 1,
-                    "image_url": img_url,
-                    "image_summary":""
+                    "image_url": img_url
                 })
                 print(f"Tagged Post {counter}: Image 1 URL extracted.")
             except Exception as img_error:
@@ -79,8 +77,7 @@ def fetch_tagged_posts_as_json(driver, username, f_upath):
                     img_url = img_tag.get_attribute('src')
                     post_data["images"].append({
                         "image_number": i,
-                        "image_url": img_url,
-                        "image_summary":""
+                        "image_url": img_url
                     })
 
                     print(f"Tagged Post {counter}, Image {i}: Image URL extracted.")

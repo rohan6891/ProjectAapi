@@ -14,20 +14,20 @@ from PIL import Image
 import re
 import json
 
-from FuncScrape.tweets import fetch_tweets
-from FuncScrape.chats import fetch_chats
-from FuncScrape.followers import fetch_followers
-from FuncScrape.following import fetch_following
-from FuncScrape.chats_json import fetch_chats_json
-from FuncScrape.tweets_json import fetch_tweets_json
-from FuncScrape.following_json import fetch_following_json
-from FuncScrape.followers_json import fetch_followers_json
-from FuncScrape.accoount_info import fetch_account_details
-from FuncScrape.account_info_json import fetch_account_details_as_json
+from app_scrapers.x.FuncScrape.tweets import fetch_tweets
+from app_scrapers.x.FuncScrape.chats import fetch_chats
+from app_scrapers.x.FuncScrape.followers import fetch_followers
+from app_scrapers.x.FuncScrape.following import fetch_following
+from app_scrapers.x.FuncScrape.chats_json import fetch_chats_json
+from app_scrapers.x.FuncScrape.tweets_json import fetch_tweets_json
+from app_scrapers.x.FuncScrape.following_json import fetch_following_json
+from app_scrapers.x.FuncScrape.followers_json import fetch_followers_json
+from app_scrapers.x.FuncScrape.accoount_info import fetch_account_details
+from app_scrapers.x.FuncScrape.account_info_json import fetch_account_details_as_json
 
 def create_data_folder(username):
     folder_name = f"Data_{username}"
-    folder_path = os.path.join(r"C:\Users\katik\Desktop\SIH\SIH_FINAL\Backend\ProjectAapi\Data", "x", folder_name)
+    folder_path = os.path.join(r"C:\Users\katik\Desktop\SIH\SIH_FINAL\Backend\ProjectAapi\ScraData", "x", folder_name)
     if not os.path.exists(folder_path):
         os.makedirs(folder_path)
         print(f"Created directory: {folder_path}")
@@ -76,7 +76,7 @@ def compile_x_report(username, password):
 
     # Set up Chrome options for headless mode 
     chrome_options = Options()
-    # chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--headless")
     chrome_options.add_argument("--window-size=1920,1080")
     driver = webdriver.Chrome(options=chrome_options)
     login_to_twitter(driver, username, password)
@@ -113,7 +113,7 @@ def compile_x_report(username, password):
         json.dump(x_json_data, json_file, ensure_ascii=False, indent=4)
     print(f"X report saved at: {json_file_path}")    
     driver.quit()    
-    return os.path.join("Data","x",f"Data_{username}")
+    return f"x/Data_{username}"
 
 
 

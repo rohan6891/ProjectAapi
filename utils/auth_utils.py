@@ -2,7 +2,7 @@ import bcrypt
 from fastapi import HTTPException
 from database import db_instance
 
-async def get_users_collection():
+def get_users_collection():
     user_agent_collection = db_instance.get_collection("user_agents")  # No need to await here
     return user_agent_collection
 

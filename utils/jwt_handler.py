@@ -29,7 +29,9 @@ def verify_token(token: str):
 
 def decode_access_token(token: str):
     try:
+        print("decode_access_token")
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         return payload
     except jwt.PyJWTError:
+        print("entered exception of decode_access_token")
         return None

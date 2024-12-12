@@ -6,7 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 from PIL import Image
-from FuncScrape.pdf_utils import create_title_page, scale_image
+from app_scrapers.facebook.FuncScrape.pdf_utils import create_title_page, scale_image
 
 def fetch_personal_info(driver, pdf_report, output_path):
     """

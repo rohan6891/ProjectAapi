@@ -114,7 +114,7 @@ def parse_messages_to_json(thread_name, username, messages):
             content = message['item_type']
 
         timestamp = datetime.fromtimestamp(float(message["timestamp"]) / 1e6).strftime('%Y-%m-%d %H:%M:%S')
-        chat.append({"sender": sender, "message": content, "timestamp": timestamp})
+        chat.append({"sender": sender, "message": content,"date":timestamp.split()[0],"time":timestamp.split()[1]})
 
     return {"receiver_name": thread_name, "chat": chat}
 

@@ -6,7 +6,7 @@ from PIL import Image
 import time
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
-from FuncScrape.pdf_utils import create_title_page, scale_image
+from app_scrapers.x.FuncScrape.pdf_utils import create_title_page, scale_image
 import os
 
 def fetch_followers(driver, pdf_report, username, f_upath):

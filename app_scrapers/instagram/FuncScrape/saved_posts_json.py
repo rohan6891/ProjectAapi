@@ -4,7 +4,6 @@ from selenium.webdriver.support import expected_conditions as EC
 import time
 import os
 import json
-
 def fetch_saved_posts_as_json(driver, username, f_upath):
     """Fetches saved posts of a user and saves the data as JSON."""
     saved_posts_url = f"https://www.instagram.com/{username}/saved/"
@@ -70,8 +69,7 @@ def fetch_saved_posts_as_json(driver, username, f_upath):
             img_url = img_tag.get_attribute('src')
             post_data["images"].append({
                 "image_number": 1,
-                "image_url": img_url,
-                "image_summary":""
+                "image_url": img_url
             })
 
             print(f"Saved Post {counter}: Image 1 URL extracted.")
@@ -91,8 +89,7 @@ def fetch_saved_posts_as_json(driver, username, f_upath):
                     img_url = img_tag.get_attribute('src')
                     post_data["images"].append({
                         "image_number": i,
-                        "image_url": img_url,
-                        "image_summary":""
+                        "image_url": img_url
                     })
 
                     print(f"Saved Post {counter}, Image {i}: Image URL extracted.")
