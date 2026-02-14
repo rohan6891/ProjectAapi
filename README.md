@@ -3,7 +3,6 @@
 [![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/)
 [![Python](https://img.shields.io/badge/python-3.8+-blue.svg?style=for-the-badge&logo=python)](https://www.python.org/)
 [![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
-[![License](https://img.shields.io/badge/license-MIT-green.svg?style=for-the-badge)](LICENSE)
 
 > **A comprehensive FastAPI-based backend system for social media forensic investigation and digital evidence collection designed for law enforcement agencies.**
 
@@ -26,7 +25,7 @@
 
 ## 🎯 Overview
 
-**ProjectAapi** is a powerful backend system built with FastAPI that enables law enforcement agencies (NIA, Police, Cybercrime units) to conduct digital forensic investigations across multiple social media platforms. The system automates data collection, generates comprehensive reports in multiple formats, and provides timeline visualization for suspect activities.
+**ProjectAapi** is a powerful backend system built with FastAPI that enables law enforcement agencies to conduct digital forensic investigations across multiple social media platforms. The system automates data collection, generates comprehensive reports in multiple formats, and provides timeline visualization for suspect activities.
 
 ### Why ProjectAapi?
 
